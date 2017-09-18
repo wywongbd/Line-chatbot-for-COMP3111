@@ -66,8 +66,10 @@ public class KitchenSinkTester {
 	public void testFound() throws Exception {
 		boolean thrown = false;
 		String result = null;
+		String random = "dafkjckdieu";
+				
 		try {
-			result = this.databaseEngine.search("abc");
+			result = this.databaseEngine.search(random + "abc" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
@@ -75,7 +77,7 @@ public class KitchenSinkTester {
 		assertThat(result.equals("def"));
 		
 		try {
-			result = this.databaseEngine.search("Hi");
+			result = this.databaseEngine.search(random + "Hi" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
@@ -84,7 +86,7 @@ public class KitchenSinkTester {
 		assertThat(result.equals("Hey, how things going?"));
 		
 		try {
-			result = this.databaseEngine.search("I am fine");
+			result = this.databaseEngine.search(random + "I am fine" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
@@ -93,7 +95,7 @@ public class KitchenSinkTester {
 		assertThat(result.equals("Great!"));
 		
 		try {
-			result = this.databaseEngine.search("Who is Prof Kim");
+			result = this.databaseEngine.search(random + "Who is Prof Kim" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
@@ -102,7 +104,7 @@ public class KitchenSinkTester {
 		assertThat(result.equals("Well, this is your instructor."));
 		
 		try {
-			result = this.databaseEngine.search("How is the grade of this course?");
+			result = this.databaseEngine.search(random + "How is the grade of this course?" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
