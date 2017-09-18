@@ -73,5 +73,41 @@ public class KitchenSinkTester {
 		}
 		assertThat(!thrown);
 		assertThat(result.equals("def"));
+		
+		try {
+			result = this.databaseEngine.search("Hi");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		
+		assertThat(!thrown);
+		assertThat(result.equals("Hey, how things going?"));
+		
+		try {
+			result = this.databaseEngine.search("I am fine");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		
+		assertThat(!thrown);
+		assertThat(result.equals("Great!"));
+		
+		try {
+			result = this.databaseEngine.search("Who is Prof Kim");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		
+		assertThat(!thrown);
+		assertThat(result.equals("Well, this is your instructor."));
+		
+		try {
+			result = this.databaseEngine.search("How is the grade of this course?");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		
+		assertThat(!thrown);
+		assertThat(result.equals("This is absolute good grade for good student. And I am sure you are!"));
 	}
 }
