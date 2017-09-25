@@ -13,43 +13,46 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 	@Override
 	String search(String text) throws Exception {
 		String result = null;
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		PreparedStatement stmtUpdate = null;
+
 		//Write your code here
 		try {
-			Connection connection = this.getConnection();
-			PreparedStatement stmt = connection.prepareStatement("SELECT response, hit FROM keywordResponse WHERE ? like concat('%', LOWER(keyword), '%')");
+			connection = this.getConnection();
+			stmt = connection.prepareStatement("SELECT response FROM keywordResponse WHERE ? like concat('%', LOWER(keyword), '%')");
 			stmt.setString(1, text.toLowerCase());
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 
 			while (result == null && rs.next()) {
 				result = rs.getString(1);
-				count = rs.getInt(2);
-
-				result = result + "This keyword has been asked " + Integer.toString(count) + " times.";
+				int count = rs.getInt(2);
+				result = result + " This has been encountered " + Integer.toString(count) + " times.";
 
 				try {
-					stmt_1 = connection.prepareStatement(
-						"UPDATE keywordResponse
-						SET hit = hit + 1,
-						WHERE ? like concat('%', LOWER(keyword), '%')"
-					);
+					stmtUpdate = connection.prepareStatement("UPDATE keywordResponse SET hit = hit + 1 WHERE ? like concat('%', LOWER(keyword), '%')");
 
-					stmt_1.setString(1, text.toLowerCase());
-					stmt_1.executeUpdate();
+					stmtUpdate.setString(1, text.toLowerCase());
+					stmtUpdate.executeUpdate();
 
-					stmt_1.close();
-
-				} catch (Exception e) {
+				} catch (SQLException e){
 					System.out.println(e);
+				} finally {
+					if (stmtUpdate != null)
+						stmtUpdate.close();
 				}
-
 			}
 
-			rs.close();
-			stmt.close();
-			connection.close();
-
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			System.out.println(e);
+		} finally {
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
+			if (connection != null)
+				connection.close();
 		}
 		if (result != null)
 			return result;
