@@ -87,7 +87,7 @@ import java.net.URI;
 @Slf4j
 @LineMessageHandler
 public class KitchenSinkController {
-	
+
 
 
 	@Autowired
@@ -312,17 +312,17 @@ public class KitchenSinkController {
 	}
 
 
-	
+
 
 
 	public KitchenSinkController() {
-		database = new DatabaseEngine();
+		database = new SQLDatabaseEngine();
 		itscLOGIN = System.getenv("ITSC_LOGIN");
 	}
 
 	private DatabaseEngine database;
 	private String itscLOGIN;
-	
+
 
 	//The annontation @Value is from the package lombok.Value
 	//Basically what it does is to generate constructor and getter for the class below
@@ -338,7 +338,7 @@ public class KitchenSinkController {
 	class ProfileGetter implements BiConsumer<UserProfileResponse, Throwable> {
 		private KitchenSinkController ksc;
 		private String replyToken;
-		
+
 		public ProfileGetter(KitchenSinkController ksc, String replyToken) {
 			this.ksc = ksc;
 			this.replyToken = replyToken;
@@ -358,7 +358,7 @@ public class KitchenSinkController {
         	);
     	}
     }
-	
-	
+
+
 
 }

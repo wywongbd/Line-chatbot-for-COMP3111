@@ -46,11 +46,11 @@ import com.example.bot.spring.DatabaseEngine;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { KitchenSinkTester.class, DatabaseEngine.class })
+@SpringBootTest(classes = { KitchenSinkTester.class, SQLDatabaseEngine.class })
 public class KitchenSinkTester {
 	@Autowired
 	private DatabaseEngine databaseEngine;
-	
+
 	@Test
 	public void testNotFound() throws Exception {
 		boolean thrown = false;
@@ -61,55 +61,55 @@ public class KitchenSinkTester {
 		}
 		assertThat(thrown);
 	}
-	
+
 	@Test
 	public void testFound() throws Exception {
 		boolean thrown = false;
 		String result = null;
 		String random = "dafkjckdieu";
-				
+
 		try {
-			result = this.databaseEngine.search(random + "abc" + random);
+			result = this.databaseEngine.search(random + "How is your day?" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
 		assertThat(!thrown);
-		assertThat(result.equals("def"));
-		
+		assertThat(result.equals("Being a chatbot is rather boring"));
+
 		try {
-			result = this.databaseEngine.search(random + "Hi" + random);
+			result = this.databaseEngine.search(random + "What is your gender" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
-		
+
 		assertThat(!thrown);
-		assertThat(result.equals("Hey, how things going?"));
-		
+		assertThat(result.equals("I am a male."));
+
 		try {
-			result = this.databaseEngine.search(random + "I am fine" + random);
+			result = this.databaseEngine.search(random + "Are you smart?" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
-		
+
 		assertThat(!thrown);
-		assertThat(result.equals("Great!"));
-		
+		assertThat(result.equals("I have an IQ of 210, and I can look into the future."));
+
 		try {
-			result = this.databaseEngine.search(random + "Who is Prof Kim" + random);
+			result = this.databaseEngine.search(random + "How old are you?" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
-		
+
 		assertThat(!thrown);
-		assertThat(result.equals("Well, this is your instructor."));
-		
+		assertThat(result.equals("I have been here long before your existence."));
+
 		try {
-			result = this.databaseEngine.search(random + "How is the grade of this course?" + random);
+			result = this.databaseEngine.search(random + "Wassup?" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
-		
+
 		assertThat(!thrown);
-		assertThat(result.equals("This is absolute good grade for good student. And I am sure you are!"));
+		assertThat(result.equals("Doing just fine."));
 	}
 }
