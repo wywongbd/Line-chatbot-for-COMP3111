@@ -16,12 +16,32 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		//Write your code here
 		try {
 			Connection connection = this.getConnection();
-			PreparedStatement stmt = connection.prepareStatement("SELECT response FROM chatkeywords WHERE ? like concat('%', keyword, '%')");
-			stmt.setString(1, text);
+			PreparedStatement stmt = connection.prepareStatement("SELECT response, hit FROM keywordResponse WHERE ? like concat('%', LOWER(keyword), '%')");
+			stmt.setString(1, text.toLowerCase());
 			ResultSet rs = stmt.executeQuery();
 
 			while (result == null && rs.next()) {
 				result = rs.getString(1);
+				count = rs.getInt(2);
+
+				result = result + "This keyword has been asked " + Integer.toString(count) + " times.";
+
+				try {
+					stmt_1 = connection.prepareStatement(
+						"UPDATE keywordResponse
+						SET hit = hit + 1,
+						WHERE ? like concat('%', LOWER(keyword), '%')"
+					);
+
+					stmt_1.setString(1, text.toLowerCase());
+					stmt_1.executeUpdate();
+
+					stmt_1.close();
+
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+
 			}
 
 			rs.close();
