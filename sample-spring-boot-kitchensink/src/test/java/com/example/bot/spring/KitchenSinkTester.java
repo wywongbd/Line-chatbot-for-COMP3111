@@ -77,7 +77,7 @@ public class KitchenSinkTester {
 		assertThat(result.equals("Being a chatbot is rather boring"));
 
 		try {
-			result = this.databaseEngine.search(random + "What is your gender" + random);
+			result = this.databaseEngine.search(random + "What is your gender?" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
@@ -92,16 +92,16 @@ public class KitchenSinkTester {
 		}
 
 		assertThat(!thrown);
-		assertThat(result.equals("I have an IQ of 210, and I can look into the future."));
+		assertThat(result.equals("I have an IQ of 210."));
 
 		try {
-			result = this.databaseEngine.search(random + "How old are you?" + random);
+			result = this.databaseEngine.search(random + "How old are your?" + random);
 		} catch (Exception e) {
 			thrown = true;
 		}
 
 		assertThat(!thrown);
-		assertThat(result.equals("I have been here long before your existence."));
+		assertThat(result.equals("Ihave been here long before your existence."));
 
 		try {
 			result = this.databaseEngine.search(random + "Wassup?" + random);
